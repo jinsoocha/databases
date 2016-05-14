@@ -11,7 +11,7 @@ var app = {
 
   init: function() {
     // Get username
-    app.username = prompt("Choose your username");
+    app.username = prompt('Choose your username');
 
     // Cache jQuery selectors
     app.$message = $('#message');
@@ -25,7 +25,6 @@ var app = {
     app.$roomSelect.on('change', app.saveRoom);
 
     // Fetch previous messages
-    app.startSpinner();
     app.fetch();
 
     // Poll for new messages
@@ -33,8 +32,6 @@ var app = {
   },
 
   send: function(data) {
-    console.log(data)
-    app.startSpinner();
     // Clear messages input
     app.$message.val('');
 
@@ -60,7 +57,6 @@ var app = {
       type: 'GET',
       contentType: 'application/json',
       success: function(data) {
-        console.log(data)
         // Don't bother if we have nothing to work with        
         // if (!data.results || !data.results.length) { return; }
 
@@ -94,10 +90,9 @@ var app = {
   populateMessages: function(results, animate) {
     // Clear existing messages
     app.clearMessages();
-    app.stopSpinner();
     if (Array.isArray(results)) {
       // Add all fetched messages
-      for(var i = results.length-1; i > -1; i--) {
+      for (var i = results.length - 1; i > -1; i--) {
         app.addMessage(results[i]);
       }
     }
@@ -122,7 +117,6 @@ var app = {
         if (roomname && !rooms[roomname]) {
           // Add the room to the select menu
           app.addRoom(roomname);
-
           // Store that we've added this room already
           rooms[roomname] = true;
         }
@@ -139,35 +133,28 @@ var app = {
   addRoom: function(roomname) {
     // Prevent XSS by escaping with DOM methods
     var $option = $('<option/>').val(roomname).text(roomname);
-
     // Add to select
     app.$roomSelect.append($option);
-
   },
 
   addMessage: function(data) {
     if (!data.roomname) {
       data.roomname = 'lobby';
     }
-
     // Only add messages that are in our current room
     if (data.roomname === app.roomname) {
       // Create a div to hold the chats
       var $chat = $('<div class="chat"/>');
-
       // Add in the message data using DOM methods to avoid XSS
       // Store the username in the element's data
       var $username = $('<span class="username"/>');
       $username.text(data.username + ': ').attr('data-username', data.username).attr('data-roomname', data.roomname).appendTo($chat);
-
       // Add the friend class
       if (app.friends[data.username] === true) {
         $username.addClass('friend');
       }
-
       var $message = $('<br><span/>');
       $message.text(data.msg).appendTo($chat);
-
       // Add the message to the UI
       app.$chats.append($chat);
     }
@@ -177,17 +164,14 @@ var app = {
     var username = $(evt.currentTarget).attr('data-username');
 
     if (username !== undefined) {
-      if(app.friends[username]) {
+      if (!app.friends[username]) {
         // Store as a friend
         app.friends[username] = true;
-
-        // Bold all previous messages
-        // Escape the username in case it contains a quote
-        var selector = '[data-username="' + username.replace(/"/g, '\\\"') + '"]';
-        var $usernames = $(selector).toggleClass('friend');
       } else {
         delete app.friends[username];
       }
+      var selector = '[data-username="' + username.replace(/"/g, '\\\"') + '"]';
+      var $usernames = $(selector).toggleClass('friend');
     }
   },
 
@@ -198,24 +182,18 @@ var app = {
     if (selectIndex === 0) {
       var roomname = prompt('Enter room name');
       if (roomname) {
-
         // Set as the current room
         app.roomname = roomname;
-
         // Add the room to the menu
         app.addRoom(roomname);
-
         // Select the menu option
         app.$roomSelect.val(roomname);
-
         // Fetch messages again
         app.fetch();
       }
     } else {
-      app.startSpinner();
       // Store as undefined for empty names
       app.roomname = app.$roomSelect.val();
-
       // Fetch messages again
       app.fetch();
     }
@@ -229,19 +207,9 @@ var app = {
     };
 
     app.send(message);
-
     // Stop the form from submitting
     evt.preventDefault();
-  },
-
-  startSpinner: function() {
-    $('.spinner img').show();
-    $('form input[type=submit]').attr('disabled', 'true');
-  },
-
-  stopSpinner: function() {
-    $('.spinner img').fadeOut('fast');
-    $('form input[type=submit]').attr('disabled', null);
   }
+
 };
 

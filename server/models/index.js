@@ -15,19 +15,7 @@ module.exports = {
         if (err) throw err;
         console.log(results);
       });
-
     } // a function which can be used to insert a message into the database
   },
 
-  users: {
-    // Ditto as above.
-    get: function (message) {
-    },
-    post: function (username) {
-      db.query('INSERT INTO messages (username) VALUES ("' + username + '")', function(err, results) {
-        if (err) throw err;
-        console.log(results);
-      });
-    }
-  }
 };

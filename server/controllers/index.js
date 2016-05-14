@@ -20,16 +20,6 @@ module.exports = {
       res.writeHead(201, this.headers);
       res.end(models.messages.post(req.body));
     } // a function which handles posting a message to the database
-  },
-
-  users: {
-    // Ditto as above
-    get: function (req, res) {
-    },
-    post: function (req, res) {
-      res.writeHead(201, this.headers);
-      res.end(models.users.post(req.body.username));
-    }
   }
 };
 
