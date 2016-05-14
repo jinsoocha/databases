@@ -13,6 +13,9 @@ var app = {
     // Get username
     app.username = prompt('Choose your username');
 
+    //window.location Get the username
+
+    
     // Cache jQuery selectors
     app.$message = $('#message');
     app.$chats = $('#chats');

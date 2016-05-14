@@ -29,6 +29,15 @@ var Message = db.define('Message', {
   msg: Sequelize.STRING,
   roomname: Sequelize.STRING
 }, {
+  tableName: 'messages',
+  timestamps: false
+});
+
+var User = db.define('User', {
+  username: Sequelize.STRING,
+  password: Sequelize.STRING
+}, {
+  tableName: 'Users',
   timestamps: false
 });
 
@@ -59,6 +68,38 @@ module.exports = {
         })
         .then(function(messages) {
           callback(messages);
+        })
+        .catch(function(err) {
+          console.log(err);
+          db.close();
+        });
+    }  
+  },
+
+  users: {
+    post: function(object) {
+      User.sync()
+        .then(function() {
+          return User.create({
+            username: object.username,
+            password: object.password
+          });
+        })
+        .then(function(results) {
+          console.log("INSERTED DATA");
+        })
+        .catch(function(err) {
+          console.log(err);
+          db.close();
+        });
+    },
+    get: function(callback) {
+      User.sync()
+        .then(function() {
+          return User.findAll();
+        })
+        .then(function(users) {
+          callback(users);
         })
         .catch(function(err) {
           console.log(err);

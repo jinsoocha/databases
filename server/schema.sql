@@ -13,7 +13,13 @@ CREATE TABLE messages (
 
 /* Create other tables and define schemas for them here! */
 
-
+CREATE TABLE Users (
+  /* Describe your table here.*/
+  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
+  `username` TEXT NULL DEFAULT NULL,
+  `password` VARCHAR(15) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
 
 
 /*  Execute this file from the command line by typing:
