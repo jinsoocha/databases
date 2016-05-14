@@ -19,6 +19,8 @@
 //   }
 
 // };
+
+//Sequlize version - this replaces the above codes and the db file.
 var Sequelize = require('sequelize');
 var db = new Sequelize('chat', 'root', '1234');
 
