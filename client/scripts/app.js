@@ -1,20 +1,13 @@
 
 var app = {
 
-  //TODO: The current 'toggleFriend' function just toggles the class 'friend'
-  //to all messages sent by the user
   server: 'http://127.0.0.1:3000/classes/messages',
-  username: 'anonymous',
   roomname: 'lobby',
-  lastMessageId: 0,
   friends: {},
 
   init: function() {
     // Get username
     app.username = prompt('Choose your username');
-
-    //window.location Get the username
-
     
     // Cache jQuery selectors
     app.$message = $('#message');
@@ -60,25 +53,13 @@ var app = {
       type: 'GET',
       contentType: 'application/json',
       success: function(data) {
-        // Don't bother if we have nothing to work with        
-        // if (!data.results || !data.results.length) { return; }
-
-        // // Get the last message
-        // var mostRecentMessage = data.results[data.results.length - 1];
-        // var displayedRoom = $('.chat span').first().data('roomname');
-        // app.stopSpinner();
-        // Only bother updating the DOM if we have a new message
-        // if (mostRecentMessage.objectId !== app.lastMessageId || app.roomname !== displayedRoom) {
-
+        
           // Update the UI with the fetched rooms
         app.populateRooms(JSON.parse(data));
 
           // Update the UI with the fetched messages
         app.populateMessages(JSON.parse(data), animate);
 
-          // Store the ID of the most recent message
-        // app.lastMessageId = mostRecentMessage.objectId;
-        // }
       },
       error: function(data) {
         console.error('chatterbox: Failed to fetch messages', data);

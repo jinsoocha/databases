@@ -1,13 +1,10 @@
 
 var app = {
 
-  //TODO: The current 'toggleFriend' function just toggles the class 'friend'
-  //to all messages sent by the user
   server: 'http://127.0.0.1:3000/classes/login',
   usernames: [],
 
   init: function() {
-    //console.log('init')
     app.$username = $('#username');
     app.$password = $('#password');
     app.$send = $('#send');
@@ -32,6 +29,7 @@ var app = {
       });
     } else {
       alert('Username and the password required.');
+      result = true;
     }
 
     if (!result) {
@@ -41,19 +39,17 @@ var app = {
 
     evt.preventDefault();
 
-    // window.location.href = 'http://127.0.0.1:3000/';
   },
 
   send: function(data) {
     // POST the message to the server
-    console.log(data)
     $.ajax({
       url: app.server,
       type: 'POST',
       data: JSON.stringify(data),
       contentType: 'application/json',
       success: function (data) {
-        console.log("Succeeded to send the username", data);
+        console.log('Succeeded to send the username');
         // Trigger a fetch to update the messages, pass true to animate
         app.fetch();
       },
@@ -70,7 +66,7 @@ var app = {
       contentType: 'application/json',
       success: function(data) {
         app.usernames = JSON.parse(data);
-        console.log('Succeded to get the usernames', data, app.usernames);
+        console.log('Succeded to get the usernames');
       },
       error: function(data) {
         console.error('Failed to get the usernames', data);

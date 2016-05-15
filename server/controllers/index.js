@@ -1,7 +1,6 @@
 var models = require('../models');
 
 module.exports = {
-  usernames: [],
 
   headers: {
     'access-control-allow-origin': '*',
